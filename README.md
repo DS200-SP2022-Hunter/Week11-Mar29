@@ -15,13 +15,34 @@ The main objective of today's lab is to use the `minimize` function from [Sectio
 ```
 ckd = ckd.select('Class', 'Hemoglobin', 'White Blood Cell Count')
 ```
-4. Produce a scatterplot with hemoglobin on the horizontal axis and white blood cell count on the vertical axis, with the points labeled by color according to their values of `Class` (1 for CKD, 0 for no CKD). Use the last block of code in Section 17.1.1 as a model.
+4. Produce a scatterplot with hemoglobin on the horizontal axis and white blood cell count on the vertical axis, with the points labeled by color according to their values of `Class` (1 for CKD, 0 for no CKD). Use the last block of code in Section 17.1.1 as a model.  
 
-5. On your scatterplot, you should see the 
+5. In your scatterplot, you should see the cases without CKD in gold in the lower right corner and the cases with CKD in dark blue mostly on the left.  Suppose you wanted to draw a stright line connecting the point (x1, 5000) to the point (x2, 25000) that mostly separates the two clusters of points.  What values of x1 and x2 would you use?  Add this line to your plot using the code
+```
+plots.plot([x1, x2], [5000,25000]);
+```
+(Be sure you substitute actual values for `x1` and `x2` above.)
 
-9. _(Optional, for an extra point):_ The original dataset covers two different races, the First Night 5K and the Arts Festival 5K.  There are 24 people who ran both of them.  Create a new dataset with these 24 people, and give a bootstrapped 95% confidence interval for the mean difference between an individual's First Night finishing time and that individual's Arts Fest finishing time.  As above, discuss which population you think this result might apply to.
+6. Study the function called `lw_mse` in Section 15.3.3.1.  Notice that the final value returned equals the mean of the values `(y - fitted) ** 2`.  While this is an appropriate for linear regression, we will replace it with a specially tailored logistic regression function when `y` can only take the values 0 and 1, namely, `np.log(1 + np.exp(fitted)) - y * fitted`.  Here is a function that can therefore replace `lw_mse`:
+```
+def ckd_logistic(a, b, c):
+  Hem = ckd.column('Hemoglobin')
+  WBC = ckd.column('White Blood Cell Count')
+  y = ckd.column('Class')
+  linear = a*Hem + b*WBC + c
+  return np.mean(np.log(1+np.exp(linear)) - y*linear)
+```
+Notice that we have used `linear` in place of `fitted`.  This is merely a semantic choice; in linear regression, the linear function is the same as the fitted value, but not in logistic regression.  
 
-10.  Finally, make sure that your Jupyter notebook only includes code and text that is relevant to this assignment.  For instance, if you have been completing this assignment by editing the original code from Section 13.2, make sure to delete the material that isn't relevant before turning in your work.
+7. Use the `minimize` function with the `ckd_logistic` to find the values of `a`, `b`, and `c` that minimize the value of `ckd_logistic`.  Report these three values in your output.
+
+8. The logistic function maps the value of `linear` to the probability given by `np.exp(linear) / (1 + np.exp(linear))`.  Notice that this means that when `linear` is zero, the probability equals 1/2.  Similarly, the probably is greater than 1/2 or less than 1/2 when `linear` is greater than 0 or less than 0, respectively.  
+
+9. According to Step 8, we can find all the points `(Hem, WBC)` where our logistic regression predicts a probability of 1/2 for having CKD:  They are exactly those points for which `linear=0` using the values from Step 7.  These points fall on a straight line in the scatterplot.  Going back to Step 5, solve for the values of x1 and x2 such that (x1, 5000) and (x2, 25000) are on this line, then recreate the scatterplot with this line.  
+
+10. The line you created in Step 9 gives us what is called a "hard classifier":  All points on one side are classified as CKD, and all points on the other are classified as non-CKD.  However, logistic regression actually provides more than a hard classifier; it gives each `(Hem, WBC)` point a probability of CKD according to the formula in Step 8.  As the final step in your lab this week, calculate the probability associated with the point `(Hem=12, WBC=7500)`.
+ 
+11.  Finally, make sure that your Jupyter notebook only includes code and text that is relevant to this assignment.  For instance, if you have been completing this assignment by editing the original code from Section 13.2, make sure to delete the material that isn't relevant before turning in your work.
 
 When you've completed this, you should select "Print" from the File menu, then save to pdf using this option.  The pdf file that you create in this way is the file that you should upload to Canvas for grading.  We have found that if you can select the "A3" paper size from the advanced options, this seems to solve the problems that are sometimes encountered in this step.
 
