@@ -3,7 +3,7 @@
 
 The main objective of today's lab is to use the `minimize` function from [Section 15.3](https://inferentialthinking.com/chapters/15/3/Method_of_Least_Squares.html) to train a classifier to predict chronic kidney disease using a logistic regression model.  The dataset comes from [Section 17.1](https://inferentialthinking.com/chapters/17/1/Nearest_Neighbors.html).
 
-**Objective**:  Use the `ckd` dataset from [Section 17.1](https://inferentialthinking.com/chapters/17/1/Nearest_Neighbors.html) to train a classifier to predict chronic kidney disease using a linear function of hemoglobin and white blood cell count.  Because the response variable has values 0 and 1, where 1 is a patient without CKD and 0 is a patient without, we won't minimize the mean of the squared errors as we do for linear regression.  Instead, we will minimize the mean of a special function that makes our procedure logistic regression.
+**Objective**:  Use the `ckd` dataset from [Section 17.1](https://inferentialthinking.com/chapters/17/1/Nearest_Neighbors.html) to train a classifier to predict chronic kidney disease using a linear function of hemoglobin and white blood cell count.  Because the response variable has values 0 and 1, where 1 is a patient without CKD and 0 is a patient without, we won't minimize the mean of the squared errors as we do for linear regression.  Instead, we will minimize the mean of a special function that makes our procedure logistic, not linear, regression.
 
 **Your assignment** is as follows:
 
@@ -17,11 +17,10 @@ ckd = ckd.select('Class', 'Hemoglobin', 'White Blood Cell Count')
 ```
 4. Produce a scatterplot with hemoglobin on the horizontal axis and white blood cell count on the vertical axis, with the points labeled by color according to their values of `Class` (1 for CKD, 0 for no CKD). Use the last block of code in Section 17.1.1 as a model.  
 
-5. In your scatterplot, you should see the cases without CKD in gold in the lower right corner and the cases with CKD in dark blue mostly on the left.  Suppose you wanted to draw a stright line connecting the point (x1, 5000) to the point (x2, 25000) that mostly separates the two clusters of points.  What values of x1 and x2 would you use?  Add this line to your plot using the code
+5. In your scatterplot, you should see the cases without CKD in gold in the lower right corner and the cases with CKD in dark blue mostly on the left.  Suppose you wanted to draw a stright line connecting the point (x1, 5000) to the point (x2, 25000) that mostly separates the two clusters of points.  What values of x1 and x2 would you use?  Using your values, add this line to your scatterplot using the following code just after the `scatter` method:
 ```
-plots.plot([x1, x2], [5000,25000]);
+plots.plot([x1, x2], [5000,25000]);  # Be sure to substitute actual values for x1 and x2 here
 ```
-(Be sure you substitute actual values for `x1` and `x2` above.)
 
 6. Study the function called `lw_mse` in Section 15.3.3.1.  Notice that the final value returned equals the mean of the values `(y - fitted) ** 2`.  While this is an appropriate for linear regression, we will replace it with a specially tailored logistic regression function when `y` can only take the values 0 and 1, namely, `np.log(1 + np.exp(fitted)) - y * fitted`.  Here is a function that can therefore replace `lw_mse`:
 ```
