@@ -44,7 +44,9 @@ Notice that we have used `linear` in place of `fitted` above.  This is a semanti
 
 10. The line you created in Step 9 gives us what is called a "hard classifier":  All points on one side are classified as CKD, and all points on the other are classified as non-CKD.  However, logistic regression actually provides more than a hard classifier; it gives each `(Hem, WBC)` point a probability of CKD according to the formula in Step 8.  As the final step in your lab this week, calculate the probability associated with the point `(Hem=12, WBC=7500)`.
  
-11.  Finally, make sure that your Jupyter notebook only includes code and text that is relevant to this assignment.  For instance, if you have been completing this assignment by editing the original code from Section 13.2, make sure to delete the material that isn't relevant before turning in your work.
+11. If you're curious where the expression `np.log(1 + np.exp(fitted)) - y * fitted` in Step 6 comes from, check out this [short writeup](https://github.com/DS200-SP2022-Hunter/Week11-Mar29/blob/main/LogisticRegression.pdf).
+  
+12.  Finally, make sure that your Jupyter notebook only includes code and text that is relevant to this assignment.  For instance, if you have been completing this assignment by editing the original code from Section 13.2, make sure to delete the material that isn't relevant before turning in your work.
 
 When you've completed this, you should select "Print" from the File menu, then save to pdf using this option.  The pdf file that you create in this way is the file that you should upload to Canvas for grading.  We have found that if you can select the "A3" paper size from the advanced options, this seems to solve the problems that are sometimes encountered in this step.
 
